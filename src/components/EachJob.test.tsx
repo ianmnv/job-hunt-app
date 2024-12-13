@@ -1,16 +1,16 @@
 import { render, RenderResult } from "@testing-library/react";
-import { beforeEach, describe, expect, it } from "vitest";
 import EachJob from "./EachJob";
 
-describe("Test sidebar ListJobs component", () => {
-  let component: RenderResult;
+describe("EachJob", () => {
+  let sut: RenderResult;
 
   beforeEach(() => {
-    component = render(<EachJob />);
+    sut = render(<EachJob />);
   });
 
-  it("should render component", () => {
-    const { getByRole } = component;
-    expect(getByRole("contentInfo")).toBeInTheDocument();
+  it("should render text", () => {
+    const { getByText } = sut;
+
+    expect(getByText(/individual/i)).toBeInTheDocument();
   });
 });

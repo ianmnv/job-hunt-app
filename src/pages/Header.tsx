@@ -2,11 +2,10 @@
 
 function Header() {
   return (
-    <header>
+    <header role="banner">
       <h1>Job Hunt App</h1>
-      <section role="headerSection">
+      <section>
         <input
-          data-testid="inputSearch"
           name="searchApp"
           id="searchApp"
           type="text"

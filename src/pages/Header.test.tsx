@@ -1,22 +1,25 @@
-import { render, screen } from "@testing-library/react";
-import { beforeEach, describe, expect, it } from "vitest";
+import { render, RenderResult } from "@testing-library/react";
 import Header from "./Header";
 
-describe("Testing Header component", () => {
+describe("Header", () => {
+  let sut: RenderResult;
+
   beforeEach(() => {
-    render(<Header />);
+    sut = render(<Header />);
   });
 
   it("should render title component", () => {
-    const header = screen.getByText("Job Hunt App");
-    expect(header).toBeInTheDocument();
+    const h1 = sut.getByRole("heading");
+
+    expect(h1).toBeInTheDocument();
+    expect(h1).toHaveTextContent(/job hunt app/i);
   });
 
   it("should render section and input element", () => {
-    const headerComponent = screen.getByRole("headerSection");
-    expect(headerComponent).toBeInTheDocument();
+    const { getByPlaceholderText } = sut;
 
-    const input = screen.getByTestId("inputSearch");
-    expect(headerComponent).toContainElement(input);
+    expect(
+      getByPlaceholderText(/search application, job title/i)
+    ).toBeDefined();
   });
 });

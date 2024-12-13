@@ -5,15 +5,17 @@ import DashBoard from "./pages/DashBoard";
 
 function App() {
   return (
-    <div data-testid="main">
+    <div data-testid="app-container">
       <Header />
       <ListJobs />
 
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<DashBoard />} />
-          {/* <Route path="/" element={<DashBoard />} /> */}
-        </Routes>
+        <main id="main-content">
+          <Routes>
+            <Route path="/" element={<DashBoard />} />
+            {/* <Route path="/" element={<DashBoard />} /> */}
+          </Routes>
+        </main>
       </BrowserRouter>
     </div>
   );

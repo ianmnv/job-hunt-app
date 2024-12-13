@@ -2,7 +2,7 @@ import EachJob from "../components/EachJob";
 
 function ListJobs() {
   return (
-    <div data-testid="sideBar">
+    <div>
       <EachJob />
     </div>
   );
