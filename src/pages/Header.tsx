@@ -2,14 +2,14 @@
 
 function Header() {
   return (
-    <header role="banner">
+    <header>
       <h1>Job Hunt App</h1>
       <section>
         <input
           name="searchApp"
           id="searchApp"
-          type="text"
-          placeholder="Search application, job title..."
+          type="search"
+          placeholder="Search application"
         />
       </section>
     </header>

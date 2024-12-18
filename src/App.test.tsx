@@ -1,17 +1,14 @@
-import { render, RenderResult } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
 
 describe("App", () => {
-  let sut: RenderResult;
+  render(<App />);
 
-  beforeEach(() => {
-    sut = render(<App />);
-  });
+  it("should render header & main containers", () => {
+    const header = screen.getByRole("heading", { name: /job hunt app/i });
+    const main = screen.getByRole("main");
 
-  it("should render app-container & main containers", () => {
-    const { getByRole, getByTestId } = sut;
-
-    expect(getByTestId("app-container")).toBeInTheDocument();
-    expect(getByRole("main")).toBeInTheDocument();
+    expect(header).toBeInTheDocument();
+    expect(main).toBeInTheDocument();
   });
 });

@@ -1,25 +1,18 @@
-import { render, RenderResult } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import Header from "./Header";
 
 describe("Header", () => {
-  let sut: RenderResult;
+  it("should render title and input element", () => {
+    render(<Header />);
 
-  beforeEach(() => {
-    sut = render(<Header />);
-  });
-
-  it("should render title component", () => {
-    const h1 = sut.getByRole("heading");
+    const h1 = screen.getByRole("heading");
+    const searchBox = screen.getByRole("searchbox");
+    const placeholderBox = screen.getByPlaceholderText(/search app/i);
 
     expect(h1).toBeInTheDocument();
     expect(h1).toHaveTextContent(/job hunt app/i);
-  });
 
-  it("should render section and input element", () => {
-    const { getByPlaceholderText } = sut;
-
-    expect(
-      getByPlaceholderText(/search application, job title/i)
-    ).toBeDefined();
+    expect(searchBox).toBeInTheDocument();
+    expect(placeholderBox).toBeDefined();
   });
 });
