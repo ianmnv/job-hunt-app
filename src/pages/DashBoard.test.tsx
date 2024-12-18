@@ -1,34 +1,41 @@
-import { getAllByTestId, render, RenderResult } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import DashBoard from "./DashBoard";
 
 describe("DashBoard", () => {
-  let sut: RenderResult;
-
   beforeEach(() => {
-    sut = render(<DashBoard />);
+    render(<DashBoard />);
   });
 
   it("should render title", () => {
-    const { getByRole } = sut;
-
-    const h1 = getByRole("heading");
+    const h1 = screen.getByRole("heading", { name: /overview/i });
 
     expect(h1).toBeInTheDocument();
-    expect(h1).toHaveTextContent(/overview/i);
   });
 
-  it("should render metrics container & p elements", () => {
-    const { getByTestId } = sut;
-    const overallCont = getByTestId("overall-results-cont");
+  it("should render navigation, its buttons & buttons flow", () => {
+    const allBtns = screen.getAllByRole("button");
+    const labels = [/applied/i, /offer/i, /Upcoming/i, /rejected/i];
 
-    const allPElements = getAllByTestId(overallCont, "overall-results");
-    const expectedValues = [/applied/i, /offers/i, /rejected/i];
+    const navEl = screen.getByRole("navigation");
 
-    expect(allPElements).toHaveLength(3);
-    allPElements.forEach((el, i) => {
-      expect(el).toHaveTextContent(expectedValues[i]);
+    const sectionEl = screen.getByRole("region", { name: /overview section/i });
+    const anchors = screen.getByRole("link");
+
+    expect(navEl).toBeInTheDocument();
+    expect(sectionEl).toBeInTheDocument();
+
+    expect(allBtns).toHaveLength(labels.length);
+    allBtns.forEach((el, i) => {
+      expect(el).toHaveTextContent(labels[i]);
+
+      fireEvent.click(el);
+      expect(anchors).toHaveTextContent(labels[i]);
     });
+  });
 
-    // it("should render nav & buttons", () => {});
+  it("should check textarea and label", () => {
+    const textarea = screen.getByRole("textbox", { name: /notes/i });
+
+    expect(textarea).toBeInTheDocument();
   });
 });
