@@ -1,16 +1,10 @@
-import { render, RenderResult } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import EachJob from "./EachJob";
 
-describe("EachJob", () => {
-  let sut: RenderResult;
+test("should render applications", () => {
+  render(<EachJob />);
 
-  beforeEach(() => {
-    sut = render(<EachJob />);
-  });
+  const aside = screen.getByRole("complementary");
 
-  it("should render text", () => {
-    const { getByText } = sut;
-
-    expect(getByText(/individual/i)).toBeInTheDocument();
-  });
+  expect(aside).toBeInTheDocument();
 });
