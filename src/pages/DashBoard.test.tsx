@@ -12,9 +12,9 @@ describe("DashBoard", () => {
     expect(h1).toBeInTheDocument();
   });
 
-  it("should render navigation, its buttons & buttons flow", () => {
+  it("should render navigation, buttons & buttons flow", () => {
     const allBtns = screen.getAllByRole("button");
-    const labels = [/applied/i, /offer/i, /Upcoming/i, /rejected/i];
+    const labels = [/applied/i, /offer/i, /upcoming/i, /rejected/i, /pending/i];
 
     const navEl = screen.getByRole("navigation");
 

@@ -1,41 +1,54 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import MainContext from "../MainContext";
 
 function DashBoard() {
+  const appState = useContext(MainContext);
   const [selectedTab, setSelectedTab] = useState<string>("act");
 
   let content: JSX.Element = <a href="#">Applied to (company) as (title)</a>;
 
-  if (selectedTab === "off") {
-    content = <a href="#">Offer from (company) on (applicationDate)</a>;
-  } else if (selectedTab === "up") {
-    content = (
-      <a href="#">
-        Upcoming interview on (appointmentDate) at (time) from (company) with
-        (interviewer)
-      </a>
-    );
-  } else if (selectedTab === "rej") {
-    content = <a href="#">Rejected from (company)</a>;
-  } else {
-    content = <a href="#">Applied to (company) as (title)</a>;
+  function changeContent(tab: typeof selectedTab): JSX.Element {
+    if (tab === "off") {
+      content = <a href="#">Offer from (company) on (applicationDate)</a>;
+    } else if (tab === "up") {
+      content = (
+        <a href="#">
+          Upcoming interview on (appointmentDate) at (time) from (company) with
+          (interviewer)
+        </a>
+      );
+    } else if (tab === "rej") {
+      content = <a href="#">Rejected from (company)</a>;
+    } else if (tab === "pen") {
+      content = <a href="#">Pending application from (company)</a>;
+    } else {
+      content = <a href="#">Applied to (company) as (title)</a>;
+    }
+
+    return content;
   }
 
-  const labels: { id: number; title: string; trigger: string }[] = [
-    { id: 1, title: "Applied", trigger: "act" },
-    { id: 2, title: "Offers", trigger: "off" },
-    { id: 3, title: "Upcoming", trigger: "up" },
-    { id: 4, title: "Rejected", trigger: "rej" },
+  const labels: { title: string; trigger: string }[] = [
+    { title: "Applied", trigger: "act" },
+    { title: "Offers", trigger: "off" },
+    { title: "Upcoming", trigger: "up" },
+    { title: "Rejected", trigger: "rej" },
+    { title: "Pending", trigger: "pen" },
   ];
 
   return (
-    <div style={{ backgroundColor: "red" }}>
+    <div>
       <h1>OVERVIEW</h1>
-      {/* Applied - Offers - Upcoming - Rejected */}
+      {/* Applied - Offers - Upcoming - Rejected - Pending */}
       <nav>
-        {labels.map((btn) => {
+        {labels.map((btn, i) => {
+          const numberOfJobs = appState?.filter(
+            (job) => job.status.toLowerCase() === btn.title.toLowerCase()
+          ).length;
+
           return (
-            <button key={btn.id} onClick={() => setSelectedTab(btn.trigger)}>
-              {btn.title} <span>1</span>
+            <button key={i} onClick={() => setSelectedTab(btn.trigger)}>
+              {btn.title} <span>{numberOfJobs}</span>
             </button>
           );
         })}
@@ -46,9 +59,10 @@ function DashBoard() {
       2. Offers from: <a>Offer from (company) on (applicationDate)</a>;
       3. Upcoming interviews: <a>Upcoming interview on (appointmentDate) at (time) from (company) with (interviewer)</a>; 
       4. Rejected interviews: <a>Rejected from (company)</a>;
+      5. Pending applications: <a>Pending application from (company)</a>;
       */}
       <section aria-label="overview section" className="dashboard-section">
-        {content}
+        {changeContent(selectedTab)}
       </section>
 
       {/* Reminders/Pending tasks */}

@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./pages/Header";
-import ListJobs from "./pages/ListJobs";
 import DashBoard from "./pages/DashBoard";
 import MainContext from "./MainContext";
 import Application from ".";
+import EachJob from "./components/EachJob";
 
 function App() {
   const jobApplications: Application[] = [
@@ -17,7 +17,7 @@ function App() {
       requirements: "3+ years of experience with React and TypeScript",
       applicationDate: "2023-12-01",
       technologies: ["React", "TypeScript", "JavaScript", "CSS"],
-      status: "Applied",
+      status: "applied",
       link: "https://techsolutions.com/jobs/frontend-developer",
       benefits: ["Health Insurance", "401(k)", "Remote Work"],
     },
@@ -31,7 +31,7 @@ function App() {
       requirements: "Experience with Node.js and PostgreSQL",
       applicationDate: "2023-12-05",
       technologies: ["Node.js", "PostgreSQL", "Docker"],
-      status: "In Progress",
+      status: "pending",
       link: "https://codeinnovators.com/careers/backend-developer",
       benefits: ["Stock Options", "Relocation Assistance", "Flexible Hours"],
     },
@@ -45,7 +45,7 @@ function App() {
       requirements: "Full stack development with Angular and .NET",
       applicationDate: "2023-12-10",
       technologies: ["Angular", ".NET", "C#", "SQL"],
-      status: "Interview Scheduled",
+      status: "upcoming",
       link: "https://globaltech.com/jobs/fullstack-engineer",
       benefits: ["Paid Vacation", "Free Meals", "Hybrid Work Environment"],
     },
@@ -59,7 +59,7 @@ function App() {
       requirements: "Proficient in React Native and mobile app deployment",
       applicationDate: "2023-12-15",
       technologies: ["React Native", "iOS", "Android", "JavaScript"],
-      status: "Rejected",
+      status: "rejected",
       link: "https://innovatetech.com/careers/mobile-developer",
       benefits: ["Gym Membership", "Travel Allowance", "Team Outings"],
     },
@@ -68,7 +68,7 @@ function App() {
   return (
     <MainContext.Provider value={jobApplications}>
       <Header />
-      <ListJobs />
+      <EachJob />
 
       <BrowserRouter>
         <main id="main-content">

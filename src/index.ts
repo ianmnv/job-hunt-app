@@ -9,6 +9,14 @@ interface Interview {
   created: string;
 }
 
+type Status =
+  | "applied"
+  | "upcoming"
+  | "offers"
+  | "rejected"
+  | "discarded"
+  | "pending";
+
 interface Application {
   id: number;
   title: string;
@@ -20,7 +28,7 @@ interface Application {
   applicationDate: string;
   interviews?: Interview[];
   technologies: string[];
-  status: string;
+  status: Status;
   link: string;
   benefits: string[];
   notes?: string;
