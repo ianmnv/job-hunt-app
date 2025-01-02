@@ -63,6 +63,28 @@ function App() {
       link: "https://innovatetech.com/careers/mobile-developer",
       benefits: ["Gym Membership", "Travel Allowance", "Team Outings"],
     },
+    {
+      id: 5,
+      title: "Frontend Developer",
+      company: "Monsters Inc.",
+      country: "USA",
+      salaryOffered: 85000,
+      salaryWanted: 90000,
+      requirements:
+        "3+ years of experience with React Native, TypeScript, TDD & many more shit",
+      applicationDate: "2023-12-28",
+      technologies: [
+        "React Native",
+        "TypeScript",
+        "JavaScript",
+        "CSS",
+        "TDD",
+        "Jest",
+      ],
+      status: "applied",
+      link: "https://myexample.com/jobs/frontend-developer",
+      benefits: ["Health Insurance", "$500 cash", "Remote Work", "Laptop"],
+    },
   ];
 
   return (

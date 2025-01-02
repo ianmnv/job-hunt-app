@@ -3,33 +3,39 @@ import MainContext from "../MainContext";
 
 function DashBoard() {
   const appState = useContext(MainContext);
-  const [selectedTab, setSelectedTab] = useState<string>("act");
+  const [selectedTab, setSelectedTab] = useState<string>("app");
 
-  let content: JSX.Element = <a href="#">Applied to (company) as (title)</a>;
+  function changeContent(tab: string): JSX.Element {
+    const dinamicContent = appState?.filter((job) => job.status.includes(tab));
 
-  function changeContent(tab: typeof selectedTab): JSX.Element {
-    if (tab === "off") {
-      content = <a href="#">Offer from (company) on (applicationDate)</a>;
-    } else if (tab === "up") {
-      content = (
-        <a href="#">
-          Upcoming interview on (appointmentDate) at (time) from (company) with
-          (interviewer)
-        </a>
-      );
-    } else if (tab === "rej") {
-      content = <a href="#">Rejected from (company)</a>;
-    } else if (tab === "pen") {
-      content = <a href="#">Pending application from (company)</a>;
-    } else {
-      content = <a href="#">Applied to (company) as (title)</a>;
-    }
+    if (dinamicContent?.length === 0) return <p>No jobs found</p>;
 
-    return content;
+    return (
+      <>
+        {dinamicContent?.map((job, i) => {
+          return (
+            <a key={i} href="#">
+              {job.status === "applied"
+                ? `Applied to ${job.company} as ${job.title}`
+                : job.status === "offers"
+                ? `Offer from ${job.company} on ${job.applicationDate}`
+                : job.status === "upcoming"
+                ? // ? `Upcoming interview on ${job.applicationDate} at ${job.interviews?[0].appointmentDate} from ${job.company} with ${job.interviews[0].interviewers[0]}`
+                  `Upcoming interview on ${job.applicationDate}`
+                : job.status === "rejected"
+                ? `Rejected from ${job.company}`
+                : job.status === "pending"
+                ? `Pending application from ${job.company}`
+                : null}
+            </a>
+          );
+        })}
+      </>
+    );
   }
 
   const labels: { title: string; trigger: string }[] = [
-    { title: "Applied", trigger: "act" },
+    { title: "Applied", trigger: "app" },
     { title: "Offers", trigger: "off" },
     { title: "Upcoming", trigger: "up" },
     { title: "Rejected", trigger: "rej" },
@@ -39,7 +45,7 @@ function DashBoard() {
   return (
     <div>
       <h1>OVERVIEW</h1>
-      {/* Applied - Offers - Upcoming - Rejected - Pending */}
+
       <nav>
         {labels.map((btn, i) => {
           const numberOfJobs = appState?.filter(
