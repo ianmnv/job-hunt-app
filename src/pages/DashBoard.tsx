@@ -1,14 +1,22 @@
-import { useState, useContext } from "react";
-import MainContext from "../MainContext";
+import { useState } from "react";
+import { useAppSelector } from "../store/hooks/reduxHooks";
 
 function DashBoard() {
-  const appState = useContext(MainContext);
+  const appState = useAppSelector((state) => state.applications);
   const [selectedTab, setSelectedTab] = useState<string>("app");
+  const labels: { title: string; trigger: string }[] = [
+    { title: "Applied", trigger: "app" },
+    { title: "Offers", trigger: "off" },
+    { title: "Upcoming", trigger: "up" },
+    { title: "Rejected", trigger: "rej" },
+    { title: "Pending", trigger: "pen" },
+  ];
 
   function changeContent(tab: string): JSX.Element {
     const dinamicContent = appState?.filter((job) => job.status.includes(tab));
 
-    if (dinamicContent?.length === 0) return <p>No jobs found</p>;
+    if (dinamicContent?.length === 0)
+      return <p>No job application with this status.</p>;
 
     return (
       <>
@@ -34,27 +42,19 @@ function DashBoard() {
     );
   }
 
-  const labels: { title: string; trigger: string }[] = [
-    { title: "Applied", trigger: "app" },
-    { title: "Offers", trigger: "off" },
-    { title: "Upcoming", trigger: "up" },
-    { title: "Rejected", trigger: "rej" },
-    { title: "Pending", trigger: "pen" },
-  ];
-
   return (
     <div>
-      <h1>OVERVIEW</h1>
+      <h1>DashBoard</h1>
 
       <nav>
-        {labels.map((btn, i) => {
+        {labels.map((label, i) => {
           const numberOfJobs = appState?.filter(
-            (job) => job.status.toLowerCase() === btn.title.toLowerCase()
+            (job) => job.status.toLowerCase() === label.title.toLowerCase()
           ).length;
 
           return (
-            <button key={i} onClick={() => setSelectedTab(btn.trigger)}>
-              {btn.title} <span>{numberOfJobs}</span>
+            <button key={i} onClick={() => setSelectedTab(label.trigger)}>
+              {label.title} <span>{numberOfJobs}</span>
             </button>
           );
         })}

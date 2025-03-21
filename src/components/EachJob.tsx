@@ -1,8 +1,7 @@
-import { useContext } from "react";
-import MainContext from "../MainContext";
+import { useAppSelector } from "../store/hooks/reduxHooks";
 
 function EachJob() {
-  const appState = useContext(MainContext);
+  const appState = useAppSelector((state) => state.applications);
 
   return (
     <aside>
