@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAppSelector } from "../store/hooks/reduxHooks";
 
 function DashBoard() {
-  const appState = useAppSelector((state) => state.applications);
+  const appState = useAppSelector((state) => state.application);
   const [selectedTab, setSelectedTab] = useState<string>("app");
   const labels: { title: string; trigger: string }[] = [
     { title: "Applied", trigger: "app" },
@@ -13,7 +13,7 @@ function DashBoard() {
   ];
 
   function changeContent(tab: string): JSX.Element {
-    const dinamicContent = appState?.filter((job) => job.status.includes(tab));
+    const dinamicContent = appState.filter((job) => job.status.includes(tab));
 
     if (dinamicContent?.length === 0)
       return <p>No job application with this status.</p>;
@@ -48,7 +48,7 @@ function DashBoard() {
 
       <nav>
         {labels.map((label, i) => {
-          const numberOfJobs = appState?.filter(
+          const numberOfJobs = appState.filter(
             (job) => job.status.toLowerCase() === label.title.toLowerCase()
           ).length;
 

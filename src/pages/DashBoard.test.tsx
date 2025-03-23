@@ -1,92 +1,17 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import type Application from "../index";
-import MainContext from "../MainContext";
+import { fireEvent, screen } from "@testing-library/react";
+import { renderWithProviders } from "../utils/test-utils";
+import { mockData } from "../mocks/mockApplications";
 import DashBoard from "./DashBoard";
-
-const mockData: Application[] = [
-  {
-    id: 1,
-    title: "Software Engineer",
-    company: "TestCo",
-    country: "US",
-    salaryOffered: 100000,
-    salaryWanted: 110000,
-    requirements: "React, TypeScript",
-    applicationDate: "2025-01-02",
-    technologies: ["React", "TypeScript"],
-    status: "applied",
-    link: "https://example.com",
-    benefits: ["Health", "401k"],
-  },
-  {
-    id: 2,
-    title: "Frontend Developer",
-    company: "DevCorp",
-    country: "US",
-    salaryOffered: 95000,
-    salaryWanted: 100000,
-    requirements: "React, JavaScript",
-    applicationDate: "2025-01-02",
-    technologies: ["React", "JavaScript"],
-    status: "offers",
-    link: "https://example.com",
-    benefits: ["benefits"],
-  },
-  {
-    id: 3,
-    title: "Frontend Developer",
-    company: "CopmanyUpcoming",
-    country: "US",
-    salaryOffered: 95000,
-    salaryWanted: 100000,
-    requirements: "React, JavaScript",
-    applicationDate: "2025-01-02",
-    technologies: ["React", "JavaScript"],
-    status: "upcoming",
-    link: "https://example.com",
-    benefits: ["benefits"],
-  },
-  {
-    id: 4,
-    title: "Frontend Developer",
-    company: "CompanyRejected",
-    country: "US",
-    salaryOffered: 95000,
-    salaryWanted: 100000,
-    requirements: "React, JavaScript",
-    applicationDate: "2025-01-02",
-    technologies: ["React", "JavaScript"],
-    status: "rejected",
-    link: "https://example.com",
-    benefits: ["benefits"],
-  },
-  {
-    id: 5,
-    title: "Frontend Developer",
-    company: "CompanyPending",
-    country: "US",
-    salaryOffered: 95000,
-    salaryWanted: 100000,
-    requirements: "React, JavaScript",
-    applicationDate: "2025-01-02",
-    technologies: ["React", "JavaScript"],
-    status: "pending",
-    link: "https://example.com",
-    benefits: ["benefits"],
-  },
-];
 
 describe("DashBoard", () => {
   beforeEach(() => {
-    render(
-      <MainContext.Provider value={mockData}>
-        <DashBoard />
-      </MainContext.Provider>
-    );
+    renderWithProviders(<DashBoard />, {
+      preloadedState: { application: mockData },
+    });
   });
 
   it("should render title", () => {
-    const h1 = screen.getByRole("heading", { name: /overview/i });
+    const h1 = screen.getByRole("heading", { name: /dashboard/i });
 
     expect(h1).toBeInTheDocument();
   });
@@ -116,11 +41,9 @@ describe("DashBoard", () => {
       if (btn) {
         fireEvent.click(btn);
 
-        // Verify a link appears with correct text
         const link = await screen.findByRole("link", { name: expectedContent });
         expect(link).toBeInTheDocument();
 
-        // // Verify it's an anchor tag with correct attributes
         expect(link.tagName.toLowerCase()).toBe("a");
         expect(link).toHaveAttribute("href");
       }

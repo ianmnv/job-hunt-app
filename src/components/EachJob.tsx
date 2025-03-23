@@ -1,7 +1,7 @@
 import { useAppSelector } from "../store/hooks/reduxHooks";
 
 function EachJob() {
-  const appState = useAppSelector((state) => state.applications);
+  const appState = useAppSelector((state) => state.application);
 
   return (
     <aside>
